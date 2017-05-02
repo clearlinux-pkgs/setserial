@@ -4,7 +4,7 @@
 #
 Name     : setserial
 Version  : 2.17
-Release  : 3
+Release  : 4
 URL      : http://downloads.sourceforge.net/project/setserial/setserial/2.17/setserial-2.17.tar.gz
 Source0  : http://downloads.sourceforge.net/project/setserial/setserial/2.17/setserial-2.17.tar.gz
 Summary  : No detailed summary available
