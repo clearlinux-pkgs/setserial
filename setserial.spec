@@ -4,22 +4,15 @@
 #
 Name     : setserial
 Version  : 2.17
-Release  : 6
-URL      : http://downloads.sourceforge.net/project/setserial/setserial/2.17/setserial-2.17.tar.gz
-Source0  : http://downloads.sourceforge.net/project/setserial/setserial/2.17/setserial-2.17.tar.gz
+Release  : 7
+URL      : https://sourceforge.net/projects/setserial/files/setserial/2.17/setserial-2.17.tar.gz
+Source0  : https://sourceforge.net/projects/setserial/files/setserial/2.17/setserial-2.17.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
-Requires: setserial-bin
-Requires: setserial-doc
-BuildRequires : automake
-BuildRequires : automake-dev
-BuildRequires : gettext-bin
+Requires: setserial-bin = %{version}-%{release}
+Requires: setserial-man = %{version}-%{release}
 BuildRequires : groff
-BuildRequires : libtool
-BuildRequires : libtool-dev
-BuildRequires : m4
-BuildRequires : pkg-config-dev
 Patch1: build.patch
 
 %description
@@ -31,17 +24,18 @@ serial port options.
 %package bin
 Summary: bin components for the setserial package.
 Group: Binaries
+Requires: setserial-man = %{version}-%{release}
 
 %description bin
 bin components for the setserial package.
 
 
-%package doc
-Summary: doc components for the setserial package.
-Group: Documentation
+%package man
+Summary: man components for the setserial package.
+Group: Default
 
-%description doc
-doc components for the setserial package.
+%description man
+man components for the setserial package.
 
 
 %prep
@@ -49,10 +43,16 @@ doc components for the setserial package.
 %patch1 -p1
 
 %build
-%reconfigure --disable-static
-make V=1  %{?_smp_mflags}
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+export LANG=C
+export SOURCE_DATE_EPOCH=1545262332
+%configure --disable-static
+make  %{?_smp_mflags}
 
 %install
+export SOURCE_DATE_EPOCH=1545262332
 rm -rf %{buildroot}
 %make_install
 
@@ -63,6 +63,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/bin/setserial
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man8/*
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man8/setserial.8
