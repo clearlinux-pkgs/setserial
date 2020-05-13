@@ -4,7 +4,7 @@
 #
 Name     : setserial
 Version  : 2.17
-Release  : 7
+Release  : 8
 URL      : https://sourceforge.net/projects/setserial/files/setserial/2.17/setserial-2.17.tar.gz
 Source0  : https://sourceforge.net/projects/setserial/files/setserial/2.17/setserial-2.17.tar.gz
 Summary  : No detailed summary available
@@ -24,7 +24,6 @@ serial port options.
 %package bin
 Summary: bin components for the setserial package.
 Group: Binaries
-Requires: setserial-man = %{version}-%{release}
 
 %description bin
 bin components for the setserial package.
@@ -40,19 +39,25 @@ man components for the setserial package.
 
 %prep
 %setup -q -n setserial-2.17
+cd %{_builddir}/setserial-2.17
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1545262332
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1589410449
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1545262332
+export SOURCE_DATE_EPOCH=1589410449
 rm -rf %{buildroot}
 %make_install
 
